@@ -2,7 +2,7 @@ package com.example.yo_apano.repository
 
 import com.example.yo_apano.model.Usuario
 
-class UserRepository {
+class UsuarioRepository {
 
     // Lista simulada de usuarios registrados
     private val usuariosRegistrados = listOf(
@@ -10,7 +10,7 @@ class UserRepository {
         Usuario("sewa@correo.com", "scyther")
     )
 
-    fun login(email: String, password: String): Boolean {
-        return usuariosRegistrados.any { it.email == email && it.password == password }
+    fun login(email: String, contrasena: String): Boolean {
+        return usuariosRegistrados.any { it.email == email && it.contrasena == contrasena }
     }
 }

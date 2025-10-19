@@ -1,4 +1,4 @@
-package com.example.yo_apano.ui.theme
+package com.example.yo_apano.ui.evento
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.yo_apano.model.Evento
+import com.example.yo_apano.viewmodel.EventoViewModel
 
 @Composable
 fun EventoListScreen(viewModel: EventoViewModel) {

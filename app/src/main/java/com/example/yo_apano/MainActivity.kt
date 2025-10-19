@@ -20,11 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.yo_apano.ui.theme.EventoFormScreen
-import com.example.yo_apano.ui.theme.EventoListScreen
-import com.example.yo_apano.ui.theme.EventoViewModel
-import com.example.yo_apano.ui.theme.login.LoginScreen
-import com.example.yo_apano.ui.theme.login.LoginViewModel
+import com.example.yo_apano.ui.evento.EventoFormScreen
+import com.example.yo_apano.ui.evento.EventoListScreen
+import com.example.yo_apano.ui.login.LoginScreen
+import com.example.yo_apano.viewmodel.LoginViewModel
+import com.example.yo_apano.viewmodel.EventoViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

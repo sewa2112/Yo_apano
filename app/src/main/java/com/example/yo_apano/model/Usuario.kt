@@ -2,5 +2,5 @@ package com.example.yo_apano.model
 
 data class Usuario(
     val email: String,
-    val password: String
+    val contrasena: String
 )

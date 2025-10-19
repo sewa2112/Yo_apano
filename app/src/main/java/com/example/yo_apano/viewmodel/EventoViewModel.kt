@@ -1,10 +1,9 @@
-package com.example.yo_apano.ui.theme
+package com.example.yo_apano.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yo_apano.repository.EventoRepository
 import kotlinx.coroutines.launch
-
 
 class EventoViewModel(
     private val repo: EventoRepository = EventoRepository()

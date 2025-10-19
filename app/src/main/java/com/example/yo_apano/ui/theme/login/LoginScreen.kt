@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-
+import com.example.yo_apano.viewmodel.LoginViewModel
 
 
 @Composable
@@ -71,7 +71,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
         }
 
         if (loginState) {
-            Text("✅ Login exitoso!", color = MaterialTheme.colorScheme.primary)
+            Text("Login exitoso!", color = MaterialTheme.colorScheme.primary)
         }
     }
 }
