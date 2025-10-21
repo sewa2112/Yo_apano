@@ -4,6 +4,7 @@ import com.example.yo_apano.model.Evento
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+
 class EventoRepository {
     private val _eventos = MutableStateFlow<List<Evento>>(emptyList())
     val eventos = _eventos.asStateFlow()
@@ -12,9 +13,9 @@ class EventoRepository {
 
     init {
         _eventos.value = listOf(
-            Evento(id = nextId++, nombre = "Fiesta de lanzamiento", descripcion = "¡Celebremos el lanzamiento de nuestra app!", direccion = "Av. Siempreviva 742, Springfield", asistentes = 10),
-            Evento(id = nextId++, nombre = "Reunión de desarrolladores", descripcion = "Juntémonos a codear y compartir ideas.", direccion = "Calle Falsa 123, Santiago", asistentes = 5),
-            Evento(id = nextId++, nombre = "Picnic en el parque", descripcion = "Un día de relajo y buena comida en el Parque Metropolitano.", direccion = "Parque Metropolitano de Santiago", asistentes = 25)
+            Evento(id = nextId++, nombre = "Lanzamiento de nuestra app", descripcion = "¡Celebremos el lanzamiento de nuestra app!", direccion = "Av. Pepito 321, Santiago", asistentes = 10),
+            Evento(id = nextId++, nombre = "Colecta solidaria", descripcion = "Juntémonos para ayudar a los necesitados", direccion = "Calle Falsa 123, Santiago", asistentes = 5),
+            Evento(id = nextId++, nombre = "Olla común", descripcion = "Oya común para compartir", direccion = "Parque Metropolitano de Santiago", asistentes = 25)
         )
     }
 
