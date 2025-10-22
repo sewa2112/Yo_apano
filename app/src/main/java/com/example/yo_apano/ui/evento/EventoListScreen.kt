@@ -22,7 +22,7 @@ import com.example.yo_apano.viewmodel.EventoViewModel
 
 @Composable
 fun EventoListScreen(viewModel: EventoViewModel) {
-    val eventos by viewModel.eventos.collectAsState()
+    val eventos by viewModel.eventos.collectAsState(initial = emptyList())
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Eventos disponibles", style = MaterialTheme.typography.headlineSmall)

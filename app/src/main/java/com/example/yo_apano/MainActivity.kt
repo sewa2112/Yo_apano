@@ -3,6 +3,7 @@ package com.example.yo_apano
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,8 +26,13 @@ import com.example.yo_apano.ui.evento.EventoListScreen
 import com.example.yo_apano.ui.login.LoginScreen
 import com.example.yo_apano.viewmodel.LoginViewModel
 import com.example.yo_apano.viewmodel.EventoViewModel
+import com.example.yo_apano.viewmodel.ViewModelFactory
 
 class MainActivity : ComponentActivity() {
+    private val eventoViewModel: EventoViewModel by viewModels {
+        ViewModelFactory((application as YoApanoApplication).repository)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,7 +40,6 @@ class MainActivity : ComponentActivity() {
             val isLoggedIn by loginViewModel.loginState.collectAsState()
 
             if (isLoggedIn) {
-                val eventoViewModel: EventoViewModel = viewModel()
                 var showForm by remember { mutableStateOf(false) }
 
                 if (showForm) {

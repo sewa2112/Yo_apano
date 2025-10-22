@@ -7,7 +7,7 @@ import com.example.yo_apano.repository.EventoRepository
 import kotlinx.coroutines.launch
 
 class EventoViewModel(
-    private val repo: EventoRepository = EventoRepository()
+    private val repo: EventoRepository
 ) : ViewModel() {
 
     val eventos = repo.eventos
