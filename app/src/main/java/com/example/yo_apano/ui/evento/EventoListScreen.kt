@@ -20,31 +20,42 @@ import androidx.compose.ui.unit.dp
 import com.example.yo_apano.model.Evento
 import com.example.yo_apano.viewmodel.EventoViewModel
 
+
 @Composable
 fun EventoListScreen(viewModel: EventoViewModel) {
+    // `eventos` observa el `Flow` de eventos del ViewModel.
+    // `collectAsState` convierte el `Flow` en un `State` que se puede usar en un Composable.
     val eventos by viewModel.eventos.collectAsState(initial = emptyList())
 
+    // `Column` organiza los elementos de la pantalla verticalmente.
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Eventos disponibles", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
 
+        // `LazyColumn` muestra una lista de elementos que se desplaza verticalmente.
+        // Es eficiente porque solo compone y renderiza los elementos que son visibles en la pantalla.
         LazyColumn {
+            // `items` es una función de extensión para `LazyListScope` que itera sobre una lista de elementos.
             items(eventos) { evento ->
+                // `EventoCard` es un Composable que muestra los detalles de un solo evento.
                 EventoCard(evento = evento, onUnirse = { viewModel.unirseEvento(evento.id) })
             }
         }
     }
 }
 
+
 @Composable
 fun EventoCard(evento: Evento, onUnirse: () -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+        // `Column` organiza los detalles del evento verticalmente dentro de la tarjeta.
         Column(Modifier.padding(16.dp)) {
             Text(evento.nombre, style = MaterialTheme.typography.titleLarge)
             Text(evento.descripcion)
             Text("Asistentes: ${evento.asistentes}")
             Text("Dirección: ${evento.direccion}")
             Spacer(Modifier.height(8.dp))
+            // Botón para unirse al evento.
             Button(onClick = onUnirse) {
                 Text("Unirse al evento")
             }

@@ -16,29 +16,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.yo_apano.viewmodel.EventoViewModel
 
+
 @Composable
 fun EventoFormScreen(viewModel: EventoViewModel, onEventoAgregado: () -> Unit) {
+    // Estados para almacenar la entrada del usuario para el nombre, descripción y dirección del evento.
     var nombre by remember { mutableStateOf("") }
     var descripcion by remember { mutableStateOf("") }
     var direccion by remember { mutableStateOf("") }
 
+    // `Column` organiza los elementos del formulario verticalmente.
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Título del formulario.
         Text("Registrar nuevo evento", style = MaterialTheme.typography.headlineMedium)
         Spacer(Modifier.height(16.dp))
 
+        // Campos de texto para que el usuario introduzca los detalles del evento.
         OutlinedTextField(value = nombre, onValueChange = { nombre = it }, label = { Text("Nombre del evento") })
         OutlinedTextField(value = descripcion, onValueChange = { descripcion = it }, label = { Text("Descripción") })
         OutlinedTextField(value = direccion, onValueChange = { direccion = it }, label = { Text("Dirección") })
 
         Spacer(Modifier.height(16.dp))
 
+        // Botón para registrar el evento.
         Button(onClick = {
+            // Comprueba que los campos obligatorios no estén vacíos.
             if (nombre.isNotBlank() && direccion.isNotBlank()) {
+                // Llama al ViewModel para agregar el evento.
                 viewModel.agregarEvento(nombre, descripcion, direccion)
+                // Llama al callback para indicar que el evento fue agregado.
                 onEventoAgregado()
             }
         }) {

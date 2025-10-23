@@ -28,20 +28,28 @@ import com.example.yo_apano.viewmodel.LoginViewModel
 import com.example.yo_apano.viewmodel.EventoViewModel
 import com.example.yo_apano.viewmodel.ViewModelFactory
 
+
 class MainActivity : ComponentActivity() {
     private val eventoViewModel: EventoViewModel by viewModels {
         ViewModelFactory((application as YoApanoApplication).repository)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // `setContent` define el diseño de la actividad con elementos Composable.
         setContent {
+            // `loginViewModel` gestiona el estado y la lógica de la pantalla de inicio de sesión.
             val loginViewModel: LoginViewModel = viewModel()
+            // `isLoggedIn` observa el estado de inicio de sesión y recompone la UI cuando cambia.
             val isLoggedIn by loginViewModel.loginState.collectAsState()
 
+            // La UI cambia dependiendo de si el usuario ha iniciado sesión o no.
             if (isLoggedIn) {
+                // `showForm` es un estado para mostrar/ocultar el formulario de creación de eventos.
                 var showForm by remember { mutableStateOf(false) }
 
+                // Si `showForm` es verdadero, se muestra el formulario de registro de eventos.
                 if (showForm) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Text(
@@ -49,23 +57,28 @@ class MainActivity : ComponentActivity() {
                             style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier.align(Alignment.CenterHorizontally)
                         )
+                        // `EventoFormScreen` es el Composable para el formulario de eventos.
+                        // Al completar, se oculta el formulario.
                         EventoFormScreen(eventoViewModel) {
-                            // Cuando se agrega, vuelve a la lista
                             showForm = false
                         }
                     }
                 } else {
+                    // Si `showForm` es falso, se muestra la lista de eventos.
                     Column {
+                        // Botón para mostrar el formulario de registro.
                         Button(onClick = { showForm = true }) {
                             Text("Agregar Evento")
                         }
+                        // `EventoListScreen` es el Composable que muestra la lista de eventos.
                         EventoListScreen(eventoViewModel)
                     }
                 }
             } else {
+                // Si el usuario no ha iniciado sesión, se muestra la pantalla de inicio de sesión.
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = Color(0xFF003366) // Un azul oscuro
+                    color = Color(0xFF003366) // Color de fondo azul oscuro
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -77,6 +90,7 @@ class MainActivity : ComponentActivity() {
                             color = Color.White,
                             modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                         )
+                        // `LoginScreen` es el Composable para la pantalla de inicio de sesión.
                         LoginScreen(loginViewModel)
                     }
                 }
