@@ -2,18 +2,19 @@ package com.example.yo_apano.ui.login
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.yo_apano.viewmodel.LoginViewModel
 
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(viewModel: LoginViewModel, onNavigateToRegistro: () -> Unit) {
     // `email` y `password` son estados que almacenan la entrada del usuario para los campos de texto.
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -45,7 +46,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
         )
         // Muestra un mensaje de error si el valor de `error` no es nulo.
         error?.let {
-            Text(it, color = MaterialTheme.colorScheme.error)
+            Text(it, color = Color.White)
         }
         // `Spacer` añade espacio antes del botón de inicio de sesión.
         Spacer(modifier = Modifier.height(16.dp))
@@ -55,6 +56,10 @@ fun LoginScreen(viewModel: LoginViewModel) {
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Iniciar Sesión")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        TextButton(onClick = onNavigateToRegistro) {
+            Text("¿No tienes cuenta? Regístrate")
         }
     }
 }

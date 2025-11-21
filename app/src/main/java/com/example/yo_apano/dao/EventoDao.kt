@@ -25,6 +25,10 @@ interface EventoDao {
     @Query("SELECT * FROM eventos WHERE id = :id")
     suspend fun getEventoById(id: Int): Evento?
 
+    //Obtiene todas las categorías únicas
+    @Query("SELECT DISTINCT categoria FROM eventos ORDER BY categoria ASC")
+    fun getCategorias(): Flow<List<String>>
+
     //Inserta un nuevo evento en la base de datos.
     @Insert
     suspend fun insert(evento: Evento)

@@ -29,7 +29,9 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "app_database" // Nombre del archivo de la base de datos
-                ).build()
+                )
+                .fallbackToDestructiveMigration() // Añadido para evitar el bloqueo por migración
+                .build()
                 INSTANCE = instance
                 // Devuelve la nueva instancia.
                 instance

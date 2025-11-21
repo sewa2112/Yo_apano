@@ -9,14 +9,16 @@ class EventoRepository(private val eventoDao: EventoDao) {
     // Un `Flow` que emite la lista de todos los eventos de la base de datos.
     // La UI puede observar este `Flow` para actualizarse automáticamente cuando los datos cambian.
     val eventos: Flow<List<Evento>> = eventoDao.getEventos()
+    val categorias: Flow<List<String>> = eventoDao.getCategorias()
 
 
-    suspend fun agregarEvento(nombre: String, descripcion: String, direccion: String) {
+    suspend fun agregarEvento(nombre: String, descripcion: String, direccion: String, categoria: String) {
         // Crea una nueva instancia de `Evento`.
         val nuevo = Evento(
             nombre = nombre,
             descripcion = descripcion,
-            direccion = direccion
+            direccion = direccion,
+            categoria = categoria
         )
         // Inserta el nuevo evento en la base de datos a través del DAO.
         eventoDao.insert(nuevo)
@@ -35,7 +37,5 @@ class EventoRepository(private val eventoDao: EventoDao) {
     }
 
 
-    fun getEvento(id: Int): Flow<Evento> {
-        return eventoDao.getEvento(id)
-    }
+
 }

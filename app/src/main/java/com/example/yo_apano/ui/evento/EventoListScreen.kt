@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -19,26 +21,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.yo_apano.model.Evento
 import com.example.yo_apano.viewmodel.EventoViewModel
+import com.example.yo_apano.viewmodel.LoginViewModel
 
 
 @Composable
-fun EventoListScreen(viewModel: EventoViewModel) {
-    // `eventos` observa el `Flow` de eventos del ViewModel.
-    // `collectAsState` convierte el `Flow` en un `State` que se puede usar en un Composable.
-    val eventos by viewModel.eventos.collectAsState(initial = emptyList())
+fun EventoListScreen(eventoViewModel: EventoViewModel, loginViewModel: LoginViewModel) {
+    val eventosFiltrados by eventoViewModel.eventosFiltrados.collectAsState()
+    val categorias by eventoViewModel.categorias.collectAsState()
+    val categoriaSeleccionada by eventoViewModel.categoriaSeleccionada.collectAsState()
+    val usuario by loginViewModel.usuarioActual.collectAsState()
 
-    // `Column` organiza los elementos de la pantalla verticalmente.
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Eventos disponibles", style = MaterialTheme.typography.headlineSmall)
         Spacer(Modifier.height(8.dp))
 
-        // `LazyColumn` muestra una lista de elementos que se desplaza verticalmente.
-        // Es eficiente porque solo compone y renderiza los elementos que son visibles en la pantalla.
+        val todasLasCategorias = listOf("Todos") + categorias
+        ScrollableTabRow(selectedTabIndex = todasLasCategorias.indexOf(categoriaSeleccionada)) {
+            todasLasCategorias.forEachIndexed { index, categoria ->
+                Tab(
+                    selected = index == todasLasCategorias.indexOf(categoriaSeleccionada),
+                    onClick = { eventoViewModel.seleccionarCategoria(categoria) },
+                    text = { Text(categoria) }
+                )
+            }
+        }
+
         LazyColumn {
-            // `items` es una función de extensión para `LazyListScope` que itera sobre una lista de elementos.
-            items(eventos) { evento ->
-                // `EventoCard` es un Composable que muestra los detalles de un solo evento.
-                EventoCard(evento = evento, onUnirse = { viewModel.unirseEvento(evento.id) })
+            items(eventosFiltrados) { evento ->
+                val yaInscrito = usuario?.eventosInscritos?.contains(evento.id) == true
+                EventoCard(
+                    evento = evento,
+                    onUnirse = { eventoViewModel.unirseEvento(evento.id) },
+                    yaInscrito = yaInscrito
+                )
             }
         }
     }
@@ -46,18 +61,17 @@ fun EventoListScreen(viewModel: EventoViewModel) {
 
 
 @Composable
-fun EventoCard(evento: Evento, onUnirse: () -> Unit) {
+fun EventoCard(evento: Evento, onUnirse: () -> Unit, yaInscrito: Boolean) {
     Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-        // `Column` organiza los detalles del evento verticalmente dentro de la tarjeta.
         Column(Modifier.padding(16.dp)) {
             Text(evento.nombre, style = MaterialTheme.typography.titleLarge)
             Text(evento.descripcion)
+            Text("Categoría: ${evento.categoria}")
             Text("Asistentes: ${evento.asistentes}")
             Text("Dirección: ${evento.direccion}")
             Spacer(Modifier.height(8.dp))
-            // Botón para unirse al evento.
-            Button(onClick = onUnirse) {
-                Text("Unirse al evento")
+            Button(onClick = onUnirse, enabled = !yaInscrito) {
+                Text(if (yaInscrito) "Ya inscrito" else "Unirse al evento")
             }
         }
     }

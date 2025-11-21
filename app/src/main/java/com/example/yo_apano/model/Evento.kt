@@ -11,5 +11,6 @@ data class Evento(
     val nombre: String,
     val descripcion: String,
     val direccion: String,
+    val categoria: String,
     val asistentes: Int = 0
 )

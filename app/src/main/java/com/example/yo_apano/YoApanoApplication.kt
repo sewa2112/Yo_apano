@@ -3,6 +3,7 @@ package com.example.yo_apano
 import android.app.Application
 import com.example.yo_apano.database.AppDatabase
 import com.example.yo_apano.repository.EventoRepository
+import com.example.yo_apano.repository.UsuarioRepository
 
 
 class YoApanoApplication : Application() {
@@ -12,5 +13,6 @@ class YoApanoApplication : Application() {
 
     // `repository` es una instancia del repositorio de eventos (`EventoRepository`).
     // También se inicializa de forma perezosa y depende de la instancia de la base de datos.
-    val repository by lazy { EventoRepository(database.eventoDao()) }
+    val eventoRepository by lazy { EventoRepository(database.eventoDao()) }
+    val usuarioRepository by lazy { UsuarioRepository() }
 }
