@@ -19,15 +19,12 @@ class EventoViewModel(
     private val loginViewModel: LoginViewModel
 ) : ViewModel() {
 
-    // StateFlow for the selected category
     private val _categoriaSeleccionada = MutableStateFlow("Todos")
     val categoriaSeleccionada: StateFlow<String> = _categoriaSeleccionada.asStateFlow()
 
-    // StateFlow for the list of all available categories
     val categorias: StateFlow<List<String>> = repo.categorias
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    // `eventosFiltrados` combines the full list of events with the selected category
     val eventosFiltrados: StateFlow<List<Evento>> = combine(
         repo.eventos,
         _categoriaSeleccionada
@@ -50,9 +47,7 @@ class EventoViewModel(
         viewModelScope.launch {
             val usuario = loginViewModel.usuarioActual.firstOrNull()
             if (usuario != null && !usuario.eventosInscritos.contains(id)) {
-                // Aumentar asistentes es algo que debería hacer el backend
-                // Por ahora, lo dejamos comentado o lo eliminamos.
-                // repo.aumentarAsistentes(id)
+
                 loginViewModel.inscribirUsuarioAEvento(id)
             }
         }

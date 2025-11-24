@@ -8,8 +8,7 @@ class UsuarioRepository {
     // Una lista mutable que simula una tabla de base de datos para los usuarios.
     // Contiene usuarios predefinidos para propósitos de prueba.
     private val usuariosRegistrados = mutableListOf(
-        Usuario(email = "test@correo.com", contrasena = "1234"),
-        Usuario(email = "sewa@correo.com", contrasena = "scyther")
+        Usuario(email = "test@correo.com", contrasena = "1234")
     )
 
 
