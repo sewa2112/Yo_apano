@@ -8,45 +8,41 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-
 class LoginViewModel(
-    // El repositorio para gestionar los datos del usuario.
-    private val usuarioRepository: UsuarioRepository = UsuarioRepository()
+    private val usuarioRepository: UsuarioRepository
 ) : ViewModel() {
 
-    // `_usuarioActual` es un `MutableStateFlow` que emite el estado del usuario actual.
-    // Es privado para que solo el ViewModel pueda modificarlo.
     private val _usuarioActual = MutableStateFlow<Usuario?>(null)
-    // `usuarioActual` es la versión pública e inmutable de `_usuarioActual` que la UI puede observar.
     val usuarioActual = _usuarioActual.asStateFlow()
 
-    // mensaje de error si el inicio de sesión falla.
     private val _error = MutableStateFlow<String?>(null)
-    // `error` es la versión pública e inmutable de `_error` para ser observada por la UI.
     val error = _error.asStateFlow()
 
-
+    // -------- LOGIN --------
     fun login(email: String, contrasena: String) {
         viewModelScope.launch {
-            // Comprueba si alguno de los campos está vacío.
             if (email.isBlank() || contrasena.isBlank()) {
                 _error.value = "Completa todos los campos"
-            } else {
-                // Llama al método `login` del repositorio para validar las credenciales.
+                return@launch
+            }
+
+            try {
                 val usuario = usuarioRepository.login(email, contrasena)
                 if (usuario != null) {
-                    // Si el inicio de sesión es exitoso, limpia cualquier error y actualiza el estado de inicio de sesión.
                     _error.value = null
                     _usuarioActual.value = usuario
                 } else {
-                    // Si el inicio de sesión falla, establece un mensaje de error y actualiza el estado de inicio de sesión.
                     _error.value = "Correo o contraseña incorrectos"
                     _usuarioActual.value = null
                 }
+            } catch (e: Exception) {
+                _error.value = "Error de red: No se pudo conectar al servidor"
+                _usuarioActual.value = null
             }
         }
     }
 
+    // -------- REGISTRO --------
     fun registrarUsuario(email: String, contrasena: String, confirmarContrasena: String) {
         viewModelScope.launch {
             if (email.isBlank() || contrasena.isBlank() || confirmarContrasena.isBlank()) {
@@ -57,22 +53,28 @@ class LoginViewModel(
                 _error.value = "Las contraseñas no coinciden"
                 return@launch
             }
+
             val exito = usuarioRepository.registrarUsuario(email, contrasena)
             if (exito) {
                 _error.value = null
-                login(email, contrasena) // Inicia sesión automáticamente
+                login(email, contrasena)
             } else {
                 _error.value = "El correo electrónico ya está en uso"
             }
         }
     }
 
-    fun inscribirUsuarioAEvento(eventoId: Int) {
+    // -------- INSCRIPCIÓN --------
+    fun inscribir(email: String, eventoId: Int) {
         viewModelScope.launch {
-            _usuarioActual.value?.let { usuario ->
-                usuarioRepository.inscribirUsuarioAEvento(usuario.email, eventoId)
-                // Refresca el estado del usuario para que la UI se actualice
-                _usuarioActual.value = usuarioRepository.getUsuario(usuario.email)
+            val ok = usuarioRepository.inscribirUsuarioAEvento(email, eventoId)
+
+            if (ok) {
+                _error.value = null
+                val usuarioActualizado = usuarioRepository.getUsuario(email)
+                _usuarioActual.value = usuarioActualizado
+            } else {
+                _error.value = "No se pudo inscribir al evento"
             }
         }
     }

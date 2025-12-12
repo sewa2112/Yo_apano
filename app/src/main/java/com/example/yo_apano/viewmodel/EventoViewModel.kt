@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -43,13 +42,13 @@ class EventoViewModel(
         }
     }
 
-    fun unirseEvento(id: Int) {
+    fun unirseEvento(eventoId: Int) {
         viewModelScope.launch {
-            val usuario = loginViewModel.usuarioActual.firstOrNull()
-            if (usuario != null && !usuario.eventosInscritos.contains(id)) {
-
-                loginViewModel.inscribirUsuarioAEvento(id)
-            }
+            // Llama a la función corregida en LoginViewModel
+            loginViewModel.inscribir(loginViewModel.usuarioActual.value!!.email, eventoId)
+            
+            // También incrementamos los asistentes del evento
+            repo.aumentarAsistentes(eventoId)
         }
     }
 

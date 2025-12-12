@@ -17,7 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class `LoginTest.spec` {
+class `LoginTest.kt` {
 
     // Regla para ejecutar tareas de LiveData de forma síncrona.
     @get:Rule
