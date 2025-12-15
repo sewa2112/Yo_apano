@@ -41,7 +41,7 @@ class UsuarioRepository(
         return if (response.isSuccessful) response.body() else null
     }
 
-    // INSCRIBIR A EVENTO (si decides agregarlo después en Xano)
+
     suspend fun inscribirUsuarioAEvento(email: String, eventoId: Int): Boolean {
         val usuario = getUsuario(email) ?: return false
 

@@ -25,6 +25,10 @@ class LoginViewModel(
                 _error.value = "Completa todos los campos"
                 return@launch
             }
+            if (!email.endsWith("@gmail.com")) {
+                _error.value = "El correo debe ser de @gmail.com"
+                return@launch
+            }
 
             try {
                 val usuario = usuarioRepository.login(email, contrasena)
@@ -49,17 +53,27 @@ class LoginViewModel(
                 _error.value = "Todos los campos son obligatorios"
                 return@launch
             }
+            if (!email.endsWith("@gmail.com")) {
+                _error.value = "El correo debe ser de @gmail.com"
+                return@launch
+            }
             if (contrasena != confirmarContrasena) {
                 _error.value = "Las contraseñas no coinciden"
                 return@launch
             }
 
-            val exito = usuarioRepository.registrarUsuario(email, contrasena)
-            if (exito) {
-                _error.value = null
-                login(email, contrasena)
-            } else {
-                _error.value = "El correo electrónico ya está en uso"
+            try {
+                val exito = usuarioRepository.registrarUsuario(email, contrasena)
+                if (exito) {
+                    _error.value = null
+                    login(email, contrasena) // Intenta hacer login automáticamente
+                } else {
+                    // Este error solo aparece si la API confirma que el registro falló (ej. email duplicado)
+                    _error.value = "El correo electrónico ya está en uso o los datos son inválidos"
+                }
+            } catch (e: Exception) {
+                // Este error aparece si hay un problema de conexión
+                _error.value = "Error de red: No se pudo registrar al usuario"
             }
         }
     }

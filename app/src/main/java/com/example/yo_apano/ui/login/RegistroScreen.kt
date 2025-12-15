@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.yo_apano.viewmodel.LoginViewModel
 
@@ -34,21 +36,50 @@ fun RegistroScreen(viewModel: LoginViewModel, onRegistroExitoso: () -> Unit) {
             value = email,
             onValueChange = { email = it },
             label = { Text("Correo Electrónico") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White,
+                cursorColor = Color.White,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
             label = { Text("Contraseña") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White,
+                cursorColor = Color.White,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = confirmarPassword,
             onValueChange = { confirmarPassword = it },
             label = { Text("Confirmar Contraseña") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            visualTransformation = PasswordVisualTransformation(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color.White,
+                unfocusedBorderColor = Color.White,
+                focusedLabelColor = Color.White,
+                unfocusedLabelColor = Color.White,
+                cursorColor = Color.White,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
         )
         error?.let {
             Text(it, color = Color.White)

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -36,10 +37,10 @@ fun EventoFormScreen(viewModel: EventoViewModel, onEventoAgregado: () -> Unit) {
         Spacer(Modifier.height(16.dp))
 
         // Campos de texto para que el usuario introduzca los detalles del evento.
-        OutlinedTextField(value = nombre, onValueChange = { nombre = it }, label = { Text("Nombre del evento") })
-        OutlinedTextField(value = descripcion, onValueChange = { descripcion = it }, label = { Text("Descripción") })
-        OutlinedTextField(value = direccion, onValueChange = { direccion = it }, label = { Text("Dirección") })
-        OutlinedTextField(value = categoria, onValueChange = { categoria = it }, label = { Text("Categoría") })
+        OutlinedTextField(value = nombre, onValueChange = { nombre = it }, label = { Text("Nombre del evento") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = descripcion, onValueChange = { descripcion = it }, label = { Text("Descripción") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = direccion, onValueChange = { direccion = it }, label = { Text("Dirección") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(value = categoria, onValueChange = { categoria = it }, label = { Text("Categoría") }, modifier = Modifier.fillMaxWidth())
 
         Spacer(Modifier.height(16.dp))
 
